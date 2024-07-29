@@ -87,7 +87,6 @@ sylius_customer:
         customer:
             classes:
                 model: App\Entity\Customer\Customer
-                repository: App\Repository\CustomerRepository
         customer_group:
             classes:
                 model: App\Entity\Customer\CustomerGroup
