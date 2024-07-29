@@ -21,10 +21,20 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php,Serializer}'
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    Sylius\Bundle\ApiBundle\Serializer\ProductVariantNormalizer:
+        class: App\Serializer\ProductVariantNormalizer
+        arguments:
+            - '@sylius.calculator.product_variant_price'
+            - '@sylius.availability_checker'
+            - '@sylius.section_resolver.uri_based_section_resolver'
+            - '@api_platform.symfony.iri_converter'
+        tags:
+            - { name: serializer.normalizer, priority: 100 }
