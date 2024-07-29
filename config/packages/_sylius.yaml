@@ -87,6 +87,7 @@ sylius_customer:
         customer:
             classes:
                 model: App\Entity\Customer\Customer
+                repository: App\Repository\CustomerRepository
         customer_group:
             classes:
                 model: App\Entity\Customer\CustomerGroup
@@ -260,3 +261,12 @@ sylius_theme:
             scan_depth: 1
             directories:
                 - "%kernel.project_dir%/themes"
+
+winzou_state_machine:
+    sylius_order:
+        callbacks:
+            after:
+                custom_action:
+                    on: ["create"]
+                    do: ["@app.custom_service", "customAction"]
+                    args: ["object"]
